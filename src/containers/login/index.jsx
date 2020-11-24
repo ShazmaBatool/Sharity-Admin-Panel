@@ -89,7 +89,7 @@ export default function Login() {
 
       <div className="checkbox mb-3">
         <label>
-          Are you new? <Link to="signUp">Register Here</Link>
+          Are you new? <Link to="signUp">Sign Up Here</Link>
         </label>
       </div>
       <button className="btn btn-lg btn-primary btn-block" type="submit">
@@ -104,7 +104,7 @@ export default function Login() {
         </div>
       </button>
       {errors ? <p style={{ color: "red" }}>{errors}</p> : null}
-      <p className="mt-5 mb-3 text-muted text-center">&copy; 2017-2020</p>
+      <p className="mt-5 mb-3 text-muted text-center"> 2020&copy;Sharity</p>
     </form>
   );
 }
