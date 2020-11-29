@@ -8,78 +8,68 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [orgData, setOrgData] = useState([]);
   const [donorData, setDonorData] = useState([]);
+  const [deleteOrg, setDeleteOrg] = useState("");
   const database = firebase.database();
   useEffect(() => {
     gettingOrgData();
-    gettingDonorData();
+    // gettingDonorData();
     setTimeout(() => {
       setLoading(false);
     }, 2000);
-  });
+  }, []);
   const gettingOrgData = () => {
     database
-      .ref("/Users/" + "Organization")
+      .ref("/Users/Organization")
       .once("value")
       .then(function (snapshot) {
         var result = Object.values(snapshot.val());
-
         setOrgData(result);
       });
   };
   const gettingDonorData = () => {
     database
-      .ref("/Users/" + "Donor")
+      .ref("/Users/Donor")
       .once("value")
       .then(function (snapshot) {
         var result = Object.values(snapshot.val());
         setDonorData(result);
       });
   };
+  const handleDelete = (email) => {
+    setDeleteOrg(email);
+    // let userRef = this.database.ref("Users/" + userId);
+    // userRef.remove();
+    database
+      .ref("/Users/Organization")
+      .once("value")
+      .then(function (snapshot) {
+        var result = Object.values(snapshot.val());
+        const delResult = result.filter(
+          (object) => object.OrgEmail !== deleteOrg
+        );
+        console.log("🚀 ~ file: index.jsx ~ line 50 ~ delResult", delResult);
+        setOrgData(delResult);
+      });
+  };
   return (
     <>
       {loading ? (
-        // <div className='loading'>
-        //   <DotLoader size={80} />
-        // </div>
-        <div
-          aria-busy="true"
-          aria-label="Loading"
-          role="progressbar"
-          class="loading-container"
-        >
-          <div class="swing">
-            <div class="swing-l"></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div class="swing-r"></div>
-          </div>
-          {/* <div class='shadow'>
-            <div class='shadow-l'></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div class='shadow-r'></div>
-          </div> */}
+        <div className='loading'>
+          <DotLoader size={80} color='#bb2265' />
         </div>
       ) : (
         <>
-          <div className="row">
-            <div className="col-md-12">
-              <h4 className="mt-2 mb-4">Organization's Dataset</h4>
-              <div className="table-responsive">
+          <div className='row'>
+            <div className='col-md-12'>
+              <h4 className='mt-2 mb-4'>Organization's Dataset</h4>
+              <div className='table-responsive'>
                 <table
-                  id="myTable"
-                  className="table table-bordred table-striped"
-                >
+                  id='myTable'
+                  className='table table-bordred table-striped'>
                   <thead>
                     <tr>
                       <th>
-                        <input type="checkbox" id="checkall" />
+                        <input type='checkbox' id='checkall' />
                       </th>
                       <th>Name</th>
                       <th>Address</th>
@@ -91,59 +81,58 @@ export default function Dashboard() {
                     </tr>
                   </thead>
                   <tbody>
-                    {orgData.map((row) => (
-                      <tr>
-                        <td>
-                          <input type="checkbox" className="checkthis" />
-                        </td>
-                        <td>{row.OrgName}</td>
-                        <td>{row.OrgAddress}</td>
-                        <td>{row.OrgCity}</td>
-                        <td>{row.OrgEmail}</td>
-                        <td>{row.OrgPassword}</td>
+                    {orgData &&
+                      orgData.map((row) => (
+                        <tr>
+                          <td>
+                            <input type='checkbox' className='checkthis' />
+                          </td>
+                          <td>{row.OrgName}</td>
+                          <td>{row.OrgAddress}</td>
+                          <td>{row.OrgCity}</td>
+                          <td>{row.OrgEmail}</td>
+                          <td>{row.OrgPassword}</td>
 
-                        <td>
-                          <button
-                            className="btn btn-primary btn-xs"
-                            data-title="Edit"
-                            data-toggle="modal"
-                            data-target="#edit"
-                          >
-                            <FontAwesomeIcon
-                              icon={faPenSquare}
-                              style={{ fontSize: 20 }}
-                            />
-                          </button>
-                        </td>
-                        <td>
-                          <button
-                            className="btn btn-danger btn-xs"
-                            data-title="Remove"
-                            data-toggle="modal"
-                            data-target="#remove"
-                          >
-                            <FontAwesomeIcon icon={faTrashAlt} />
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
+                          <td>
+                            <button
+                              className='btn btn-primary btn-xs'
+                              data-title='Edit'
+                              data-toggle='modal'
+                              data-target='#edit'>
+                              <FontAwesomeIcon
+                                icon={faPenSquare}
+                                style={{ fontSize: 20 }}
+                              />
+                            </button>
+                          </td>
+                          <td>
+                            <button
+                              onClick={() => handleDelete(row.OrgEmail)}
+                              className='btn btn-danger btn-xs'
+                              data-title='Remove'
+                              data-toggle='modal'
+                              data-target='#remove'>
+                              <FontAwesomeIcon icon={faTrashAlt} />
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
                   </tbody>
                 </table>
               </div>
             </div>
           </div>
-          <div className="row">
-            <div className="col-md-12">
-              <h4 className="mt-2 mb-4">Donor's Dataset</h4>
-              <div className="table-responsive">
+          <div className='row'>
+            <div className='col-md-12'>
+              <h4 className='mt-2 mb-4'>Donor's Dataset</h4>
+              <div className='table-responsive'>
                 <table
-                  id="myTable"
-                  className="table table-bordred table-striped"
-                >
+                  id='myTable'
+                  className='table table-bordred table-striped'>
                   <thead>
                     <tr>
                       <th>
-                        <input type="checkbox" id="checkall" />
+                        <input type='checkbox' id='checkall' />
                       </th>
                       <th>Name</th>
                       <th>Address</th>
@@ -155,30 +144,30 @@ export default function Dashboard() {
                     </tr>
                   </thead>
                   <tbody>
-                    {donorData.map((row) => (
-                      <tr>
-                        <td>
-                          <input type="checkbox" className="checkthis" />
-                        </td>
-                        <td>{row.DonorName}</td>
-                        <td>{row.DonorAddress}</td>
-                        <td>{row.DonorCity}</td>
-                        <td>{row.Email}</td>
-                        <td>{row.PhoneNumber}</td>
-                        <td>{row.Gender}</td>
+                    {donorData &&
+                      donorData.map((row) => (
+                        <tr>
+                          <td>
+                            <input type='checkbox' className='checkthis' />
+                          </td>
+                          <td>{row.DonorName}</td>
+                          <td>{row.DonorAddress}</td>
+                          <td>{row.DonorCity}</td>
+                          <td>{row.Email}</td>
+                          <td>{row.PhoneNumber}</td>
+                          <td>{row.Gender}</td>
 
-                        <td>
-                          <button
-                            className="btn btn-danger btn-xs"
-                            data-title="Remove"
-                            data-toggle="modal"
-                            data-target="#remove"
-                          >
-                            <FontAwesomeIcon icon={faTrashAlt} />
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
+                          <td>
+                            <button
+                              className='btn btn-danger btn-xs'
+                              data-title='Remove'
+                              data-toggle='modal'
+                              data-target='#remove'>
+                              <FontAwesomeIcon icon={faTrashAlt} />
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
                   </tbody>
                 </table>
               </div>
