@@ -5,27 +5,33 @@ import Dashboard from "../containers/dashboard";
 // import Donor from "../Donor";
 import NotFound from "../containers/notFound";
 import AddOrganization from "../containers/addOrganization";
+import Profile from "../containers/profile";
 import AppBar from "../components/dashboard/AppBar";
 import Footer from "../components/dashboard/Footer";
 
 export default function HomePage({ user }) {
   return (
     <>
-      <AppBar user={user} />
-      <main role="main" className="flex-shrink-0">
-        <div className="container">
+      <header>
+        <AppBar user={user} />
+      </header>
+      <main role='main' className='container'>
+        <div className='container mt-3'>
           <Switch>
             {/* Redirect from root URL to /dashboard. */}
-            <Route exact path="/dashboard" component={Dashboard} />
+            <Route exact path='/dashboard' component={Dashboard} />
 
-            <Route path="/add-org" component={AddOrganization} />
-            <Route path="/not-found" component={NotFound} />
-            {<Redirect from="/" to="/dashboard" />}
-            <Redirect to="/not-found" />
+            <Route path='/add-org' component={AddOrganization} />
+            <Route path='/profile' component={Profile} />
+            <Route path='/not-found' component={NotFound} />
+            {<Redirect from='/' to='/dashboard' />}
+            <Redirect to='/not-found' />
           </Switch>
         </div>
       </main>
-      <Footer />
+      <footer>
+        <Footer />
+      </footer>
     </>
   );
 }

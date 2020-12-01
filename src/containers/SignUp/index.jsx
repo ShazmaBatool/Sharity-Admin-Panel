@@ -26,7 +26,7 @@ export default function SignUp() {
       .then(async (res) => {
         //grab token from local storage and set to state.
         if (res) {
-          db.ref("Users/" + "Admin").push({
+          db.ref("Users/Admin").push({
             Name: userName,
             Email: email,
             Password: password,
@@ -53,73 +53,73 @@ export default function SignUp() {
   };
 
   return (
-    <form className="form-signin" onSubmit={handleClick}>
-      <div className="text-center mb-4">
+    <form className='form-signin' onSubmit={handleClick}>
+      <div className='text-center mb-4'>
         <img
-          className="mb-4 App-logo"
+          className='mb-4 App-logo'
           src={AppLogo}
-          alt=""
-          width="92"
-          height="92"
+          alt=''
+          width='92'
+          height='92'
           style={{ borderRadius: 92 / 2 }}
         />
-        <h1 className="h3 mb-3 font-weight-normal">Sign Up</h1>
+        <h1 className='h3 mb-3 font-weight-normal'>Sign Up</h1>
       </div>
 
-      <div className="form-label-group">
+      <div className='form-label-group'>
         <input
-          type="text"
-          name="username"
-          id="inputName"
-          className="form-control"
-          placeholder="User name"
+          type='text'
+          name='username'
+          id='inputName'
+          className='form-control'
+          placeholder='User name'
           value={userName}
           onChange={handleChange}
           required
           autoFocus
         />
-        <label htmlFor="inputEmail">User Name</label>
+        <label htmlFor='inputEmail'>User Name</label>
       </div>
 
-      <div className="form-label-group">
+      <div className='form-label-group'>
         <input
-          type="email"
-          id="inputEmail"
-          name="email"
-          className="form-control"
-          placeholder="Email address"
+          type='email'
+          id='inputEmail'
+          name='email'
+          className='form-control'
+          placeholder='Email address'
           value={email}
           onChange={handleChange}
           required
           autoFocus
         />
-        <label htmlFor="inputEmail">Email address</label>
+        <label htmlFor='inputEmail'>Email address</label>
       </div>
 
-      <div className="form-label-group">
+      <div className='form-label-group'>
         <input
-          type="password"
-          id="inputPassword"
-          name="password"
-          className="form-control"
-          placeholder="Password"
+          type='password'
+          id='inputPassword'
+          name='password'
+          className='form-control'
+          placeholder='Password'
           value={password}
           onChange={handleChange}
           required
         />
-        <label htmlFor="inputPassword">Password</label>
+        <label htmlFor='inputPassword'>Password</label>
       </div>
 
-      <div className="checkbox mb-3">
+      <div className='checkbox mb-3'>
         <label>
-          Already have an account, <Link to="login">Login here!</Link>
+          Already have an account, <Link to='login'>Login here!</Link>
         </label>
       </div>
-      <button className="btn btn-lg btn-primary btn-block" type="submit">
-        <div className="sign-in-button">
+      <button className='btn btn-lg btn-primary btn-block' type='submit'>
+        <div className='sign-in-button'>
           Sign up{" "}
           <ClipLoader
-            color="#fff"
+            color='#fff'
             size={30}
             css={{ marginLeft: 10 }}
             loading={isLoading}
@@ -127,7 +127,7 @@ export default function SignUp() {
         </div>
       </button>
       {errors ? <p style={{ color: "red" }}>{errors}</p> : null}
-      <p className="mt-5 mb-3 text-muted text-center">&copy; 2017-2020</p>
+      <p className='mt-5 mb-3 text-muted text-center'>&copy; 2017-2020</p>
     </form>
   );
 }

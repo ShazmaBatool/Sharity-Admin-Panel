@@ -33,22 +33,58 @@ function AddOrganization() {
   const hideAlert = () => {
     setAlert(null);
   };
+  const getErrorDone = () => {
+    const getAlert = () => (
+      <SweetAlert warning title='Error!' onConfirm={hideAlert} timeout={2000}>
+        Please fill all the values.
+      </SweetAlert>
+    );
+    setAlert(getAlert());
+  };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitLoading(true);
-    database.ref("Users/" + "Organization").push({
-      OrgName: orgName,
-      OrgEmail: orgEmail,
-      OrgPassword: orgPassword,
-      OrgAddress: orgAddress,
-      OrgState: orgState,
-      OrgCity: orgCity,
-    });
-    setTimeout(() => {
-      setSubmitLoading(false);
-      getThisDone();
-    }, 2000);
+    if (
+      orgName &&
+      orgEmail &&
+      orgPassword &&
+      orgAddress &&
+      orgState &&
+      orgCity !== ""
+    ) {
+      setSubmitLoading(true);
+      await firebase
+        .auth()
+        .createUserWithEmailAndPassword(orgEmail, orgPassword)
+        //make res asynchonous so that we can make grab the token before saving it.
+        .then(async (res) => {
+          //grab token from local storage and set to state.
+          if (res) {
+            console.log("🚀 ~ file: index.jsx ~ line 63 ~ .then ~ res", res);
+
+            database.ref("Users/Organization").push({
+              OrgName: orgName,
+              OrgEmail: orgEmail,
+              OrgPassword: orgPassword,
+              OrgAddress: orgAddress,
+              OrgState: orgState,
+              OrgCity: orgCity,
+            });
+          }
+        })
+        .catch((err) => {
+          // console.log("Register -> err", err);
+          window.alert(err.toString());
+        });
+
+      setTimeout(() => {
+        setSubmitLoading(false);
+        getThisDone();
+      }, 2000);
+    } else {
+      getErrorDone();
+      // window.alert("Please fill all the values.");
+    }
   };
   return (
     <>
