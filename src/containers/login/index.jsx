@@ -44,59 +44,57 @@ export default function Login() {
     }
   };
   return (
-    <form className="form-signin" onSubmit={handleSubmit}>
-      <div className="text-center mb-4">
+    <form className='form-signin' onSubmit={handleSubmit}>
+      <div className='text-center mb-4'>
         <img
-          className="mb-4 App-logo"
+          className='mb-4 App-logo'
           src={AppLogo}
-          alt=""
-          width="92"
-          height="92"
-          style={{ borderRadius: 92 / 2 }}
+          alt=''
+          style={{ width: 125, height: 90 }}
         />
-        <h1 className="h3 mb-3 font-weight-normal">Sign In</h1>
+        <h1 className='h3 mb-3 font-weight-normal'>Sign In</h1>
       </div>
 
-      <div className="form-label-group">
+      <div className='form-label-group'>
         <input
-          type="email"
-          id="inputEmail"
-          name="email"
-          className="form-control"
-          placeholder="Email address"
+          type='email'
+          id='inputEmail'
+          name='email'
+          className='form-control'
+          placeholder='Email address'
           value={email}
           onChange={handleChange}
           required
           autoFocus
         />
-        <label htmlFor="inputEmail">Email address</label>
+        <label htmlFor='inputEmail'>Email address</label>
       </div>
 
-      <div className="form-label-group">
+      <div className='form-label-group'>
         <input
-          type="password"
-          id="inputPassword"
-          name="password"
-          className="form-control"
-          placeholder="Password"
+          type='password'
+          id='inputPassword'
+          name='password'
+          className='form-control'
+          placeholder='Password'
           value={password}
           onChange={handleChange}
           required
         />
 
-        <label htmlFor="inputPassword">Password</label>
+        <label htmlFor='inputPassword'>Password</label>
       </div>
 
-      <div className="checkbox mb-3">
+      <div className='checkbox mb-3'>
         <label>
-          Are you new? <Link to="signUp">Sign Up Here</Link>
+          Are you new? <Link to='signUp'>Sign Up Here</Link>
         </label>
       </div>
-      <button className="btn btn-lg btn-primary btn-block" type="submit">
-        <div className="sign-in-button">
+      <button className='btn btn-lg btn-primary btn-block' type='submit'>
+        <div className='sign-in-button'>
           Sign in
           <ClipLoader
-            color="#fff"
+            color='#fff'
             size={30}
             css={{ marginLeft: 10 }}
             loading={isLoading}
@@ -104,7 +102,7 @@ export default function Login() {
         </div>
       </button>
       {errors ? <p style={{ color: "red" }}>{errors}</p> : null}
-      <p className="mt-5 mb-3 text-muted text-center"> 2020&copy;Sharity</p>
+      <p className='mt-5 mb-3 text-muted text-center'> 2020&copy;Sharity</p>
     </form>
   );
 }

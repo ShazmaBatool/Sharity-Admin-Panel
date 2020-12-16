@@ -6,7 +6,7 @@ import { ClipLoader } from "react-spinners";
 import AppLogo from "../../assets/logo.png";
 import { AuthContext } from "../../context";
 
-export default function SignUp() {
+export default function SignUp(props) {
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -31,8 +31,9 @@ export default function SignUp() {
             Email: email,
             Password: password,
           });
-          SignUp();
+          // SignUp();
           setIsLoading(false);
+          props.history.push("/login");
         }
       })
       .catch((err) => {
@@ -59,9 +60,7 @@ export default function SignUp() {
           className='mb-4 App-logo'
           src={AppLogo}
           alt=''
-          width='92'
-          height='92'
-          style={{ borderRadius: 92 / 2 }}
+          style={{ width: 125, height: 90 }}
         />
         <h1 className='h3 mb-3 font-weight-normal'>Sign Up</h1>
       </div>

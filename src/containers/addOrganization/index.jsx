@@ -60,8 +60,6 @@ function AddOrganization() {
         .then(async (res) => {
           //grab token from local storage and set to state.
           if (res) {
-            console.log("🚀 ~ file: index.jsx ~ line 63 ~ .then ~ res", res);
-
             database.ref("Users/Organization").push({
               OrgName: orgName,
               OrgEmail: orgEmail,
@@ -69,6 +67,7 @@ function AddOrganization() {
               OrgAddress: orgAddress,
               OrgState: orgState,
               OrgCity: orgCity,
+              uid: res.user.uid,
             });
           }
         })

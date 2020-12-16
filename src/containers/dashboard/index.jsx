@@ -3,6 +3,7 @@ import { DotLoader } from "react-spinners";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenSquare, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import firebase from "firebase";
+import { Link } from "react-router-dom";
 
 export default function Dashboard() {
   const [loading, setLoading] = useState(true);
@@ -10,6 +11,7 @@ export default function Dashboard() {
   const [donorData, setDonorData] = useState([]);
   const [deleteOrg, setDeleteOrg] = useState("");
   const database = firebase.database();
+
   useEffect(() => {
     gettingOrgData();
     // gettingDonorData();
@@ -17,6 +19,7 @@ export default function Dashboard() {
       setLoading(false);
     }, 2000);
   }, []);
+
   const gettingOrgData = () => {
     database
       .ref("/Users/Organization")
@@ -36,20 +39,21 @@ export default function Dashboard() {
       });
   };
   const handleDelete = (email) => {
-    setDeleteOrg(email);
-    // let userRef = this.database.ref("Users/" + userId);
-    // userRef.remove();
     database
-      .ref("/Users/Organization")
+      .ref("/Users/Organization/")
       .once("value")
       .then(function (snapshot) {
-        var result = Object.values(snapshot.val());
-        const delResult = result.filter(
-          (object) => object.OrgEmail !== deleteOrg
-        );
-        console.log("🚀 ~ file: index.jsx ~ line 50 ~ delResult", delResult);
-        setOrgData(delResult);
+        var status = "";
+        var uid = "";
+        snapshot.forEach((el) => {
+          if (el.val().OrgEmail === email) {
+            status = el.key;
+            uid = el.val().uid;
+          }
+        });
+        database.ref("Users/Organization/" + status).remove();
       });
+    gettingOrgData();
   };
   return (
     <>
@@ -83,7 +87,7 @@ export default function Dashboard() {
                   <tbody>
                     {orgData &&
                       orgData.map((row) => (
-                        <tr>
+                        <tr key={row}>
                           <td>
                             <input type='checkbox' className='checkthis' />
                           </td>
@@ -94,7 +98,8 @@ export default function Dashboard() {
                           <td>{row.OrgPassword}</td>
 
                           <td>
-                            <button
+                            <Link
+                              to={{ pathname: "/update-org", params: row }}
                               className='btn btn-primary btn-xs'
                               data-title='Edit'
                               data-toggle='modal'
@@ -103,7 +108,7 @@ export default function Dashboard() {
                                 icon={faPenSquare}
                                 style={{ fontSize: 20 }}
                               />
-                            </button>
+                            </Link>
                           </td>
                           <td>
                             <button
@@ -122,7 +127,7 @@ export default function Dashboard() {
               </div>
             </div>
           </div>
-          <div className='row'>
+          {/* <div className='row'>
             <div className='col-md-12'>
               <h4 className='mt-2 mb-4'>Donor's Dataset</h4>
               <div className='table-responsive'>
@@ -172,7 +177,7 @@ export default function Dashboard() {
                 </table>
               </div>
             </div>
-          </div>
+          </div> */}
         </>
       )}
     </>
